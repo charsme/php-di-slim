@@ -1,0 +1,23 @@
+{
+    "name": "chars/php-di-slim",
+    "description": "slim glue to php-di",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Charis",
+            "email": "me@chars.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Resilient\\Slim\\": "src"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.8",
+        "php-di/php-di": "^5.4",
+        "ocramius/proxy-manager": "^2.1",
+        "doctrine/annotations": "^1.4"
+    }
+}

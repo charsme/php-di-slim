@@ -1,0 +1,11 @@
+/vendor/
+/node_modules/
+composer.phar
+*.lock
+*.cache
+*.ignore
+*.log
+*.esproj
+/.vscode/
+.env
+mix-manifest.json
