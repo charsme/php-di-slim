@@ -94,7 +94,7 @@ final class App extends SlimApp
                         )
                 )->withProtocolVersion($container->get('settings')['httpVersion']);
             },
-            InvokerInterface::class => function (ContainerInterface $container) {
+            InvokerInterface::class => function (ContainerInteropInterface $container) {
                 return new Invoker(
                     new ResolverChain([
                         new TypeHintContainerResolver($container),
