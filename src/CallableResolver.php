@@ -2,7 +2,6 @@
 namespace Resilient\Slim;
 
 use Slim\Interfaces\CallableResolverInterface;
-use Invoker\CallableResolver as BaseCallableResolver;
 
 /**
  * Resolve middleware and route callables using PHP-DI.
@@ -13,7 +12,7 @@ class CallableResolver implements CallableResolverInterface
      * @var \Invoker\CallableResolver
      */
     private $callableResolver;
-    public function __construct(BaseCallableResolver $callableResolver)
+    public function __construct(\Invoker\CallableResolver $callableResolver)
     {
         $this->callableResolver = $callableResolver;
     }

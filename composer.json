@@ -14,10 +14,19 @@
             "Resilient\\Slim\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Resilient\\Test\\": "test"
+        }
+    },
     "require": {
         "slim/slim": "^3.8",
         "php-di/php-di": "^5.4",
         "ocramius/proxy-manager": "^2.1",
         "doctrine/annotations": "^1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.1",
+        "symfony/var-dumper": "^3.3"
     }
 }
