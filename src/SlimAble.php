@@ -1,10 +1,9 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Resilient\Slim;
 
 use function DI\get;
 use function DI\object;
-use function DI\factory;
 use Psr\Container\ContainerInterface;
 use Interop\Container\ContainerInterface as ContainerInteropInterface;
 use DI\ContainerBuilder;
@@ -29,7 +28,6 @@ use Invoker\ParameterResolver\DefaultValueResolver;
 use Resilient\Slim\ControllerInvoker;
 use Resilient\Slim\CallableResolver;
 use Doctrine\Common\Cache\Cache as CacheInterface;
-use Slim\App;
 
 trait SlimAble
 {

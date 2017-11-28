@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Resilient\Slim;
 
@@ -28,7 +28,7 @@ final class App extends SlimApp
         $dependencies = $this->dependencies($dependencies, $settings);
 
         $builder = $this->setCaching(
-            ( new ContainerBuilder() )->addDefinitions(\array_merge(['settings' => $settings], $dependencies)),
+            (new ContainerBuilder())->addDefinitions(\array_merge(['settings' => $settings], $dependencies)),
             $caching
         );
 
