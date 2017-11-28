@@ -28,6 +28,7 @@ use Invoker\ParameterResolver\Container\TypeHintContainerResolver;
 use Invoker\ParameterResolver\DefaultValueResolver;
 use Resilient\Slim\ControllerInvoker;
 use Resilient\Slim\CallableResolver;
+use Doctrine\Common\Cache\Cache as CacheInterface;
 
 /**
  * App
@@ -35,15 +36,44 @@ use Resilient\Slim\CallableResolver;
  */
 final class App extends SlimApp
 {
-    public function __construct(array $settings = [], array $dependencies = [])
+    /**
+     * Define setting and dependencies for the app. Caching also configurable
+     *
+     * @param array $settings
+     * @param array $dependencies
+     * @param array $caching MUST have this keys for aplicable setting 'path' => 'folder for proxies writing', 'cacheHandler' => 'cache object that an instance of Doctrine\Common\Cache\Cache', 'namespace' => 'app cache namespace'
+     */
+    public function __construct(array $settings = [], array $dependencies = [], array $caching = [])
     {
         $config = ['settings' => $this->appSettings($settings)];
         $config += $this->appDependencies($dependencies);
 
-        $builder = new ContainerBuilder();
-        $builder->addDefinitions($config);
+        $builder = $this->appSetCache(
+            ( new ContainerBuilder() )->addDefinitions($config),
+            $caching
+        );
 
         parent::__construct($builder->build());
+    }
+
+    /**
+     * appSetCache
+     *
+     * @param ContainerBuilder $builder
+     * @param array $caching MUST have this keys for aplicable setting 'path' => 'folder for proxies writing', 'cacheHandler' => 'cache object that an instance of Doctrine\Common\Cache\Cache'
+     * @return ContainerBuilder
+     */
+    public function appSetCache(ContainerBuilder $builder, array $caching) : ContainerBuilder
+    {
+        if (isset($caching['cacheHandler']) && $caching['cacheHandler'] instanceof CacheInterface) {
+            $builder->setDefinitionCache($caching['cacheHandler']);
+        }
+
+        if (isset($caching['path'])) {
+            $builder->writeProxiesToFile(true, $caching['path']);
+        }
+
+        return $builder;
     }
 
     /**
