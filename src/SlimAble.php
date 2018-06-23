@@ -3,7 +3,8 @@
 namespace Resilient\Slim;
 
 use function DI\get;
-use function DI\object;
+use function DI\create;
+use function DI\autowire;
 use Psr\Container\ContainerInterface;
 use Interop\Container\ContainerInterface as ContainerInteropInterface;
 use DI\ContainerBuilder;
@@ -62,10 +63,10 @@ trait SlimAble
     {
         return \array_merge([
             ContainerInteropInterface::class => get(Container::class),
-            Router::class => object(Router::class)->method('setCacheFile', $settings['routerCacheFile']),
+            Router::class => autowire(Router::class)->method('setCacheFile', $settings['routerCacheFile']),
             RouterInterface::class => get(Router::class),
             'router' => get(Router::class),
-            Environment::class => object(Environment::class)->constructor($_SERVER),
+            Environment::class => create(Environment::class)->constructor($_SERVER),
             'environment' => get(Environment::class),
             'request' => function (ContainerInterface $container) {
                 return Request::createFromEnvironment($container->get('environment'));
@@ -89,13 +90,13 @@ trait SlimAble
                     $container
                 );
             },
-            'foundHandler' => object(ControllerInvoker::class),
-            BaseCallableResolver::class => object(BaseCallableResolver::class),
-            'callableResolver' => object(CallableResolver::class),
-            'phpErrorHandler' => object(PhpError::class)->constructor($settings['displayErrorDetails'])->lazy(),
-            'errorHandler' => object(Error::class)->constructor($settings['displayErrorDetails'])->lazy(),
-            'notFoundHandler' => object(NotFound::class)->lazy(),
-            'notAllowedHandler' => object(NotAllowed::class)->lazy()
+            'foundHandler' => autowire(ControllerInvoker::class),
+            BaseCallableResolver::class => autowire(BaseCallableResolver::class),
+            'callableResolver' => autowire(CallableResolver::class),
+            'phpErrorHandler' => create(PhpError::class)->constructor($settings['displayErrorDetails'])->lazy(),
+            'errorHandler' => create(Error::class)->constructor($settings['displayErrorDetails'])->lazy(),
+            'notFoundHandler' => create(NotFound::class)->lazy(),
+            'notAllowedHandler' => create(NotAllowed::class)->lazy()
         ], $dependencies);
     }
 

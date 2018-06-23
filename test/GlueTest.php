@@ -15,9 +15,9 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Interop\Container\ContainerInterface as ContainerInteropInterface;
 use Resilient\Slim\CallableResolver;
 use Psr\Http\Message\ServerRequestInterface;
-use function DI\object;
 use Slim\Http\Environment;
 use function DI\factory;
+use function DI\create;
 
 class GlueTest extends TestCase
 {
@@ -28,7 +28,7 @@ class GlueTest extends TestCase
         $this->app = new \Resilient\Slim\App([
             'displayErrorDetails' => true,
         ], [
-            MockClassA::class => object(MockClassA::class),
+            MockClassA::class => create(MockClassA::class),
             'environment' => function () {
                 return Environment::mock();
             }
@@ -47,7 +47,6 @@ class GlueTest extends TestCase
         $app = $this->app;
         $container = $app->getContainer();
         $this->assertInstanceOf(PsrContainerInterface::class, $container);
-        $this->assertInstanceOf(ContainerInteropInterface::class, $container);
         return;
     }
 
@@ -88,7 +87,7 @@ class GlueTest extends TestCase
         $app = new \Resilient\Slim\App([
             'displayErrorDetails' => true,
         ], [
-            MockClassA::class => object(MockClassA::class),
+            MockClassA::class => create(MockClassA::class),
             'environment' => function () {
                 return Environment::mock(['REQUEST_URI' => '/1234.html']);
             }
